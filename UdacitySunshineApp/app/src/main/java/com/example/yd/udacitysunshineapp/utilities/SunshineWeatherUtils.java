@@ -18,8 +18,8 @@ package com.example.yd.udacitysunshineapp.utilities;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.android.sunshine.R;
-import com.example.android.sunshine.data.SunshinePreferences;
+import com.example.yd.udacitysunshineapp.R;
+import com.example.yd.udacitysunshineapp.data.SunshinePreferences;
 
 /**
  * Contains useful utilities for a weather app, such as conversion between Celsius and Fahrenheit,
