@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         }
-    }
+
 
     // TODO (7) Override the onPostExecute method to display the results of the network request
     @Override
@@ -119,5 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 mWeatherTextView.append((weatherString) + "\n\n\n");
             }
         }
+    }
     }
 }
