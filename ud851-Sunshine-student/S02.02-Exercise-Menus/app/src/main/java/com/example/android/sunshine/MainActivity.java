@@ -103,6 +103,28 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO (5) Override onCreateOptionsMenu to inflate the menu for this Activity
     // TODO (6) Return true to display the menu
+    @Override
+    public void onCreateOptionsMenu(Menu menu){
+        /* Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater */
+        MenuInflater inflater = getMenuInflater();
+        /* Use the inflater's inflate method to inflate our menu layout to this menu */
+        inflater.inflate(R.menu.forecast, menu);
+        /* Return true so that the menu is displayed in the Toolbar */
+        return true;
+    }
 
     // TODO (7) Override onOptionsItemSelected to handle clicks on the refresh button
+    @Override
+    public void onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if (id == R.id.action_refresh) {
+            mWeatherTextView.setText("");
+            loadWeatherData();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
