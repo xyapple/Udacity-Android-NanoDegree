@@ -22,7 +22,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.android.datafrominternet.MainActivity">
+    tools:context="com.example.yd.udacitytoyapp.MainActivity">
 
     <EditText
         android:id="@+id/et_search_box"
@@ -71,5 +71,12 @@
             android:layout_width="42dp"
             android:layout_gravity="center"
             android:visibility="invisible" />
+        <!--Add recyclerView-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_numbers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+
     </FrameLayout>
 </LinearLayout>
