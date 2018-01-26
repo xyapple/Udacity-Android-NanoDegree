@@ -20,24 +20,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GreenAdapter.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.03-Exercise-RecyclerViewAdapter/app/src/main/java/com/example/android/recyclerview/GreenAdapter.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.04-Exercise-WiringUpRecyclerView/app/src/main/java/com/example/android/recyclerview/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-              <folding>
-                <element signature="e#1672#1673#0" expanded="true" />
-                <element signature="e#1716#1717#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="450">
+              <caret line="45" column="42" lean-forward="false" selection-start-line="45" selection-start-column="42" selection-end-line="45" selection-end-column="42" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GreenAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.03-Solution-RecyclerViewAdapter/app/src/main/java/com/example/android/recyclerview/GreenAdapter.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.04-Solution-WiringUpRecyclerView/app/src/main/java/com/example/android/recyclerview/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="113" column="0" lean-forward="true" selection-start-line="109" selection-start-column="3" selection-end-line="113" selection-end-column="0" />
+            <state relative-caret-position="366">
+              <caret line="78" column="42" lean-forward="true" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -88,6 +85,7 @@
         <option value="$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.02-Exercise-ViewHolder/app/src/main/res/layout/number_list_item.xml" />
         <option value="$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.02-Exercise-ViewHolder/app/src/main/java/com/example/android/recyclerview/GreenAdapter.java" />
         <option value="$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.03-Exercise-RecyclerViewAdapter/app/src/main/java/com/example/android/recyclerview/GreenAdapter.java" />
+        <option value="$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.04-Exercise-WiringUpRecyclerView/app/src/main/java/com/example/android/recyclerview/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -182,7 +180,7 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="T03.03-Solution-RecyclerViewAdapter">
+            <PATH_ELEMENT USER_OBJECT="T03.04-Solution-WiringUpRecyclerView">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -200,7 +198,7 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="T03.03-Solution-RecyclerViewAdapter">
+            <PATH_ELEMENT USER_OBJECT="T03.04-Solution-WiringUpRecyclerView">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -222,7 +220,7 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="T03.03-Solution-RecyclerViewAdapter">
+            <PATH_ELEMENT USER_OBJECT="T03.04-Solution-WiringUpRecyclerView">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -248,7 +246,7 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="T03.03-Solution-RecyclerViewAdapter">
+            <PATH_ELEMENT USER_OBJECT="T03.04-Solution-WiringUpRecyclerView">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -369,7 +367,7 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516994689897" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516995064266" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -416,7 +414,7 @@
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       </Profilers>
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516994689897" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516995064266" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -636,26 +634,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Lesson01-Favorite-Toys/T01.03-Solution-AddScrolling/app/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Lesson01-Favorite-Toys/T01.01-Solution-CreateLayout/app/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="30" column="6" lean-forward="false" selection-start-line="30" selection-start-column="6" selection-end-line="31" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Lesson01-Favorite-Toys/T01.01-Exercise-CreateLayout/app/src/main/res/layout/activity_main.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -1060,9 +1038,25 @@
         <state relative-caret-position="432">
           <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding>
-            <element signature="e#1672#1673#0" expanded="true" />
-            <element signature="e#1716#1717#0" expanded="true" />
+            <element signature="e#1672#1673#0" expanded="false" />
+            <element signature="e#1716#1717#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.04-Solution-WiringUpRecyclerView/app/src/main/java/com/example/android/recyclerview/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="78" column="42" lean-forward="true" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lesson03-Green-Recycler-View/T03.04-Exercise-WiringUpRecyclerView/app/src/main/java/com/example/android/recyclerview/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="45" column="42" lean-forward="false" selection-start-line="45" selection-start-column="42" selection-end-line="45" selection-end-column="42" />
+          <folding />
         </state>
       </provider>
     </entry>
