@@ -1,137 +1,146 @@
 package com.example.yd.udacitytoyapp;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements GreenAdapter.ListItemClickListener{
-
-    private static final int NUM_LIST_ITEMS = 100;
-
-
-    /*
- * References to RecyclerView and Adapter to reset the list to its
- * "pretty" state when the reset menu item is clicked.
- */
-    private GreenAdapter mAdapter;
-    private RecyclerView mNumbersList;
-
-    private Toast mToast;
-    private Button mDoSomethingCoolButton;
-    private EditText mNameEntry;
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
+    /**
+     * This method is called when the Open Website button is clicked. It will open the website
+     * specified by the URL represented by the variable urlAsString using implicit Intents.
+     *
+     * @param v Button that was clicked.
+     */
+    public void onClickOpenWebpageButton(View v) {
+        // COMPLETED (5) Create a String that contains a URL ( make sure it starts with http:// or https:// )
+        String urlAsString = "http://www.udacity.com";
+
+        // COMPLETED (6) Replace the Toast with a call to openWebPage, passing in the URL String from the previous step
+        openWebPage(urlAsString);
+    }
+
+    /**
+     * This method is called when the Open Location in Map button is clicked. It will open the
+     * a map to the location represented by the variable addressString using implicit Intents.
+     *
+     * @param v Button that was clicked.
+     */
+    public void onClickOpenAddressButton(View v) {
+
+        // COMPLETED (5) Store an address in a String
+        String addressString = "1600 Amphitheatre Parkway, CA";
+
+        // COMPLETED (6) Use Uri.Builder with the appropriate scheme and query to form the Uri for the address
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("geo")
+                .path("0,0")
+                .query(addressString);
+        Uri addressUri = builder.build();
+
+        // COMPLETED (7) Replace the Toast with a call to showMap, passing in the Uri from the previous step
+        showMap(addressUri);
+        //Toast.makeText(this, "TODO: Open a map when this button is clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * This method is called when the Share Text Content button is clicked. It will simply share
+     * the text contained within the String textThatYouWantToShare.
+     *
+     * @param v Button that was clicked.
+     */
+    public void onClickShareTextButton(View v) {
+        // COMPLETED (5) Specify a String you'd like to share
+        /* Create the String that you want to share */
+        String textThatYouWantToShare =
+                "Sharing the coolest thing I've learned so far. You should " +
+                        "check out Udacity and Google's Android Nanodegree!";
+
+        // COMPLETED (6) Replace the Toast with shareText, passing in the String from step 5
+        /* Send that text to our method that will share it. */
+        shareText(textThatYouWantToShare);
+        //Toast.makeText(this, "TODO: Share text when this is clicked", Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * This is where you will create and fire off your own implicit Intent. Yours will be very
+     * similar to what I've done above. You can view a list of implicit Intents on the Common
+     * Intents page from the developer documentation.
+     *
+     * @see <http://developer.android.com/guide/components/intents-common.html/>
+     *
+     * @param v Button that was clicked.
+     */
+    public void createYourOwn(View v) {
+        Toast.makeText(this,
+                "TODO: Create Your Own Implicit Intent",
+                Toast.LENGTH_SHORT)
+                .show();
+    }
+
+    // COMPLETED (1) Create a method called openWebPage that accepts a String as a parameter
+    /**
+     * This method fires off an implicit Intent to open a webpage.
+     *
+     * @param url Url of webpage to open. Should start with http:// or https:// as that is the
+     *            scheme of the URI expected with this Intent according to the Common Intents page
+     */
+    private void openWebPage(String url) {
+        // COMPLETED (2) Use Uri.parse to parse the String into a Uri
         /*
-         * Using findViewById, we get a reference to our Button from xml. This allows us to
-         * do things like set the onClickListener which determines what happens when the button
-         * is clicked.
+         * We wanted to demonstrate the Uri.parse method because its usage occurs frequently. You
+         * could have just as easily passed in a Uri as the parameter of this method.
          */
-        mDoSomethingCoolButton = (Button) findViewById(R.id.b_do_something_cool);
-        mNameEntry = (EditText) findViewById(R.id.et_text_entry);
+        Uri webpage = Uri.parse(url);
 
-        /* Setting an OnClickListener allows us to do something when this button is clicked. */
-        mDoSomethingCoolButton.setOnClickListener(new View.OnClickListener() {
-
-            /**
-             * The onClick method is triggered when this button (mDoSomethingCoolButton) is clicked.
-             *
-             * @param v The view that is clicked. In this case, it's mDoSomethingCoolButton.
-             */
-            @Override
-            public void onClick(View v) {
-                // TODO (1) Retrieve the text from the EditText and store it in a variable
-
-                /*
-                 * Storing the Context in a variable in this case is redundant since we could have
-                 * just used "this" or "MainActivity.this" in the method call below. However, we
-                 * wanted to demonstrate what parameter we were using "MainActivity.this" for as
-                 * clear as possible.
-                 */
-                Context context = MainActivity.this;
-
-                /* This is the class that we want to start (and open) when the button is clicked. */
-                Class destinationActivity = ChildActivity.class;
-
-                /*
-                 * Here, we create the Intent that will start the Activity we specified above in
-                 * the destinationActivity variable. The constructor for an Intent also requires a
-                 * context, which we stored in the variable named "context".
-                 */
-                Intent startChildActivityIntent = new Intent(context, destinationActivity);
-
-                // TODO (2) Use the putExtra method to put the String from the EditText in the Intent
-
-                /*
-                 * Once the Intent has been created, we can use Activity's method, "startActivity"
-                 * to start the ChildActivity.
-                 */
-                startActivity(startChildActivityIntent);
-            }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int itemId = item.getItemId();
-
-        switch (itemId) {
-            /*
-             * When you click the reset menu item, we want to start all over
-             * and display the pretty gradient again. There are a few similar
-             * ways of doing this, with this one being the simplest of those
-             * ways. (in our humble opinion)
-             */
-            case R.id.action_refresh:
-                // COMPLETED (14) Pass in this as the ListItemClickListener to the GreenAdapter constructor
-                mAdapter = new GreenAdapter(NUM_LIST_ITEMS, this);
-                mNumbersList.setAdapter(mAdapter);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    @Override
-    public void onListItemClick(int clickedItemIndex) {
-         /*
-         * Even if a Toast isn't showing, it's okay to cancel it. Doing so
-         * ensures that our new Toast will show immediately, rather than
-         * being delayed while other pending Toasts are shown.
-         *
-         * Comment out these three lines, run the app, and click on a bunch of
-         * different items if you're not sure what I'm talking about.
-         */
-        if (mToast != null) {
-            mToast.cancel();
-        }
+        // COMPLETED (3) Create an Intent with Intent.ACTION_VIEW and the webpage Uri as parameters
         /*
-         * Create a Toast and store it in our Toast field.
-         * The Toast that shows up will have a message similar to the following:
-         *
-         *                     Item #42 clicked.
+         * Here, we create the Intent with the action of ACTION_VIEW. This action allows the user
+         * to view particular content. In this case, our webpage URL.
          */
-        String toastMessage = "Item #" + clickedItemIndex + " clicked.";
-        mToast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
 
-        mToast.show();
+        // COMPLETED (4) Verify that this Intent can be launched and then call startActivity
+        /*
+         * This is a check we perform with every implicit Intent that we launch. In some cases,
+         * the device where this code is running might not have an Activity to perform the action
+         * with the data we've specified. Without this check, in those cases your app would crash.
+         */
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void showMap(Uri geoLocation){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void shareText(String textToShare){
+        String mimeType = "text/plain";
+        String title = "Learning How to Share";
+
+        ShareCompat.IntentBuilder
+                /* The from method specifies the Context from which this share is coming from */
+                .from(this)
+                .setType(mimeType)
+                .setChooserTitle(title)
+                .setText(textToShare)
+                .startChooser();
+
     }
 }
