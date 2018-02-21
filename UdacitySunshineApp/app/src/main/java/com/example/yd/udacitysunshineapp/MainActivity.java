@@ -1,8 +1,13 @@
 package com.example.yd.udacitysunshineapp;
-
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,30 +15,62 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.yd.udacitysunshineapp.ForecastAdapter.ForecastAdapterOnClickHandler;
 import com.example.yd.udacitysunshineapp.data.SunshinePreferences;
 import com.example.yd.udacitysunshineapp.utilities.NetworkUtils;
 import com.example.yd.udacitysunshineapp.utilities.OpenWeatherJsonUtils;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
-    //create a field to store weather data
-    private TextView mWeatherTextView;
-    // Add a TextView variable for the error message display
+public class MainActivity extends AppCompatActivity implements ForecastAdapterOnClickHandler {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    private RecyclerView mRecyclerView;
+    private ForecastAdapter mForecastAdapter;
+
     private TextView mErrorMessageDisplay;
 
-    // Add a ProgressBar variable to show and hide the progress bar
     private ProgressBar mLoadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //findViewById to get a reference to the weather display TextView
-        mWeatherTextView = (TextView) findViewById(R.id.tv_weather_data);
+        setContentView(R.layout.activity_forecast);
+
+        /*
+         * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
+         * do things like set the adapter of the RecyclerView and toggle the visibility.
+         */
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_forecast);
 
         /* This TextView is used to display errors and will be hidden if there are no errors */
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+
+        /*
+         * LinearLayoutManager can support HORIZONTAL or VERTICAL orientations. The reverse layout
+         * parameter is useful mostly for HORIZONTAL layouts that should reverse for right to left
+         * languages.
+         */
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        /*
+         * Use this setting to improve performance if you know that changes in content do not
+         * change the child layout size in the RecyclerView
+         */
+        mRecyclerView.setHasFixedSize(true);
+
+        /*
+         * The ForecastAdapter is responsible for linking our weather data with the Views that
+         * will end up displaying our weather data.
+         */
+        mForecastAdapter = new ForecastAdapter(this);
+
+        /* Setting the adapter attaches it to the RecyclerView in our layout. */
+        mRecyclerView.setAdapter(mForecastAdapter);
 
         /*
          * The ProgressBar that will indicate to the user that we are loading data. It will be
@@ -44,16 +81,36 @@ public class MainActivity extends AppCompatActivity {
          */
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        //call the loadWeatherData() method
+        /* Once all of our views are setup, we can load the weather data. */
         loadWeatherData();
     }
 
-    private void loadWeatherData(){
-        //Call showWeatherDataView before executing the AsyncTask
+    /**
+     * This method will get the user's preferred location for weather, and then tell some
+     * background method to get the weather data in the background.
+     */
+    private void loadWeatherData() {
         showWeatherDataView();
+
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
     }
+
+    /**
+     * This method is overridden by our MainActivity class in order to handle RecyclerView item
+     * clicks.
+     *
+     * @param weatherForDay The weather for the day that was clicked
+     */
+    @Override
+    public void onClick(String weatherForDay) {
+        Context context = this;
+        Class destinationClass = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, weatherForDay);
+        startActivity(intentToStartDetailActivity);
+    }
+
     /**
      * This method will make the View for the weather data visible and
      * hide the error message.
@@ -61,11 +118,11 @@ public class MainActivity extends AppCompatActivity {
      * Since it is okay to redundantly set the visibility of a View, we don't
      * need to check whether each view is currently visible or invisible.
      */
-    public void showWeatherDataView(){
-         /* First, make sure the error is invisible */
+    private void showWeatherDataView() {
+        /* First, make sure the error is invisible */
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         /* Then, make sure the weather data is visible */
-        mWeatherTextView.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -77,21 +134,18 @@ public class MainActivity extends AppCompatActivity {
      */
     private void showErrorMessage() {
         /* First, hide the currently visible data */
-        mWeatherTextView.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.INVISIBLE);
         /* Then, show the error */
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
-    //Perform network requests
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
-        // Within your AsyncTask, override the method onPreExecute and show the loading indicator
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             mLoadingIndicator.setVisibility(View.VISIBLE);
         }
-
-        // Override the doInBackground method to perform your network requests
 
         @Override
         protected String[] doInBackground(String... params) {
@@ -119,39 +173,45 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //Override the onPostExecute method to display the results of the network request
         @Override
         protected void onPostExecute(String[] weatherData) {
-            //As soon as the data is finished loading, hide the loading indicator
             mLoadingIndicator.setVisibility(View.INVISIBLE);
-
             if (weatherData != null) {
-                //If the weather data was not null, make sure the data view is visible
                 showWeatherDataView();
-                /*
-                 * Iterate through the array and append the Strings to the TextView. The reason why we add
-                 * the "\n\n\n" after the String is to give visual separation between each String in the
-                 * TextView. Later, we'll learn about a better way to display lists of data.
-                 */
-                for (String weatherString : weatherData) {
-                    mWeatherTextView.append((weatherString) + "\n\n\n");
-                }
-            } else{
-                //If the weather data was null, show the error message
+                mForecastAdapter.setWeatherData(weatherData);
+            } else {
                 showErrorMessage();
             }
-
         }
-
-
     }
 
-    //Create a menu resource in res/menu/ called forecast.xml
-    //Add one item to the menu with an ID of action_refresh
-    //Set the title of the menu item to "Refresh" using strings.xml
-    //Override onCreateOptionsMenu to inflate the menu for this Activity
+    /**
+     * This method uses the URI scheme for showing a location found on a
+     * map. This super-handy intent is detailed in the "Common Intents"
+     * page of Android's developer site:
+     *
+     * @see <a"http://developer.android.com/guide/components/intents-common.html#Maps">
+     *
+     * Hint: Hold Command on Mac or Control on Windows and click that link
+     * to automagically open the Common Intents page
+     */
+    private void openLocationInMap() {
+        String addressString = "1600 Ampitheatre Parkway, CA";
+        Uri geoLocation = Uri.parse("geo:0,0?q=" + addressString);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Log.d(TAG, "Couldn't call " + geoLocation.toString()
+                    + ", no receiving apps installed!");
+        }
+    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         /* Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater */
         MenuInflater inflater = getMenuInflater();
         /* Use the inflater's inflate method to inflate our menu layout to this menu */
@@ -159,18 +219,23 @@ public class MainActivity extends AppCompatActivity {
         /* Return true so that the menu is displayed in the Toolbar */
         return true;
     }
-    //Override onOptionsItemSelected to handle clicks on the refresh button
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
-            mWeatherTextView.setText("");
+            mForecastAdapter.setWeatherData(null);
             loadWeatherData();
             return true;
         }
 
+        // COMPLETED (2) Launch the map when the map menu item is clicked
+//        if (id == R.id.action_map) {
+//            openLocationInMap();
+//            return true;
+//        }
+
         return super.onOptionsItemSelected(item);
     }
-
 }
